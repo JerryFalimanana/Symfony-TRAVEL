@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page 01{% endblock %}
+
+{% block body %}
+    <div class="example-wrapper">
+        {% for a in chiffre %}
+            <h2> {{ a }} </h2>
+        {% endfor %}
+    </div>
+{% endblock %}
