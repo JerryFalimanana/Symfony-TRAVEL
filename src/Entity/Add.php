@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\AddRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AddRepository;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @ORM\Entity(repositoryClass=AddRepository::class)
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="`add`")
  */
 class Add
@@ -52,6 +54,23 @@ class Add
      * @ORM\Column(type="integer")
      */
     private $rooms;
+
+    private $slugger;
+
+    /**
+     * Permet d'initialiser le slug
+     * 
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     * 
+     * @return void
+     */
+    public function initializeSlug()
+    {
+        if(empty($this->slug)) {
+            $slug = $this->slugger->slug($this->title);
+        }
+    }
 
     public function getId(): ?int
     {
