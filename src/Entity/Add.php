@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\AddRepository;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @ORM\Entity(repositoryClass=AddRepository::class)
+ * 
  * @ORM\HasLifecycleCallbacks
+ * 
  * @ORM\Table(name="`add`")
  */
 class Add
@@ -66,7 +67,8 @@ class Add
     public function initializeSlug()
     {
         if(empty($this->slug)) {
-            $slug = $this->slugger->slug($this->title);
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->title);
         }
     }
 
