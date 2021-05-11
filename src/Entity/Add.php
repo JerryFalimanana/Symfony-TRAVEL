@@ -55,8 +55,6 @@ class Add
      */
     private $rooms;
 
-    private $slugger;
-
     /**
      * Permet d'initialiser le slug
      * 
