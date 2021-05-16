@@ -3,9 +3,36 @@
 {% block title %} {{ ad.title }} {% endblock %}
 
 {% block body %}
+    <div class="ad-title" style="background-image: url({{ad.coverImage}});">
+        <div class="container">
+            <h1> {{ ad.title }} </h1>
+            <p> {{ ad.introduction }} </p>
+            <p class="h2">
+                <strong> {{ ad.rooms }} chambres</strong> pour <strong> {{ ad.price }}&euro; </strong> par nuit
+            </p>
+            <a href="#" class="btn btn-primary">Réserver</a>
+        </div>
+    </div>
+
     <div class="container">
-        <h1>
-            {{ ad.title }}
-        </h1>
+        <div class="row">
+            <div class="col-md-8 mb-3">
+                {{ ad.content | raw }}
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col-4">
+                        <img src="http://placehold.it/64x64" alt="avatar">
+                    </div>
+                    <div class="col">
+                        <h3>Jerry Marcos</h3>
+                        <span class="badge badge-primary">3 annonces</span>
+                    </div>
+                </div>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat veniam voluptates quas et praesentium eveniet totam eligendi tempora. Facilis, in.</p>
+                <p>Totam tenetur non itaque rerum recusandae repellendus neque sequi unde odio, nulla cum dolorem aut. Iste obcaecati sunt beatae consequuntur?</p>
+                <p>Obcaecati iusto ab, eum, sequi fugit qui sit atque fugiat asperiores error maiores consequuntur pariatur aliquam quaerat modi ipsa dolores!</p>
+            </div>
+        </div>
     </div>
 {% endblock %}
