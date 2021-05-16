@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Add;
 use App\Repository\AddRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,9 +32,9 @@ class AdController extends AbstractController
      * @param AddRepository $repo
      * @return Response
      */
-    public function show($slug, AddRepository $repo): Response
+    public function show(Add $ad): Response
     {
-        $ad = $repo->findOneBySlug($slug);
+        // $ad = $repo->findOneBySlug($slug);
         return $this->render('ad/show.html.twig', [
             'ad' => $ad,
         ]);
