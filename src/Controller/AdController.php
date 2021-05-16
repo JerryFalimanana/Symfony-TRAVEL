@@ -24,6 +24,18 @@ class AdController extends AbstractController
     }
 
     /**
+     * Permer de créer une nouvelle annonce
+     * 
+     * @Route("/ads/new", name="ads_new")
+     *
+     * @return Response
+     */
+    public function new(): Response
+    {
+        return $this->render('ad/new.html.twig');
+    }
+
+    /**
      * Permet d'afficher une annonce
      * 
      * @Route("/ads/{slug}", name="ads_show")
