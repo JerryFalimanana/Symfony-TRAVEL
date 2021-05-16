@@ -23,7 +23,7 @@ class AppFixtures extends Fixture
             $content = "<p>" . join('</p><p>', $faker->paragraphs(5)) . "</p>";
     
             $add->setTitle($title)
-                ->setCoverImage($coverImage)
+                ->setCoverImage("https://picsum.photos/1000/300")
                 ->setIntroduction($introduction)
                 ->setContent($content)
                 ->setPrice(mt_rand(40, 200))

@@ -13,11 +13,11 @@
                             {{ ad.rooms }} chambres, <strong>{{ ad.price }}&euro; / nuit</strong> <br>
                             <small>Pas encore noté</small>
                         </div>
-                        <img src="http://placehold.it/1000x400" alt="image de l'appartement" style="height: 200px; width:100%; display: block;">
+                        <img src="{{ ad.coverImage }}" alt="image de l'appartement" style="height: 200px; width:100%; display: block;">
                         <div class="card-body">
-                            <h4 class="card-title">Appatement de ouf</h4>
+                            <h4 class="card-title"> {{ ad.title }} </h4>
                             <p class="card-text">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae dolorem reiciendis assumenda pariatur architecto praesentium omnis animi explicabo, minus fuga.
+                                {{ ad.introduction }}    
                             </p>
                             <a href="#" class="btn btn-info">En savoir plus</a>
                         </div>
