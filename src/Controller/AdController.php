@@ -5,11 +5,12 @@ namespace App\Controller;
 use App\Entity\Add;
 use App\Form\AdType;
 use App\Repository\AddRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class AdController extends AbstractController
 {
@@ -32,27 +33,18 @@ class AdController extends AbstractController
      *
      * @return Response
      */
-    public function new(): Response
+    public function new(Request $request, EntityManagerInterface $manager): Response
     {
         $ad = new Add();
 
-        // $form = $this->createFormBuilder($ad)
-        //              ->add('title')
-        //              ->add('introduction')
-        //              ->add('content')
-        //              ->add('rooms')
-        //              ->add('price')
-        //              ->add('coverImage')
-        //              ->add('save', SubmitType::class, [
-        //                  'label' => 'Envoyer l\'annonce',
-        //                  'attr' => [
-        //                      'class' => 'btn btn-primary',
-        //                      'style' => 'border-radius: 10px',
-        //                  ]
-        //              ])
-        //              ->getForm();
-
         $form = $this->createForm(AdType::class, $ad);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($ad);
+            $manager->flush();
+        }
 
         return $this->render('ad/new.html.twig', [
             'form' => $form->createView(),
