@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AddRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=AddRepository::class)
@@ -14,6 +16,11 @@ use App\Repository\AddRepository;
  * @ORM\HasLifecycleCallbacks
  * 
  * @ORM\Table(name="`add`")
+ * 
+ * @UniqueEntity(
+ *  fields={"title"},
+ *  message="Une autre annonce possède déjà ce titre, merci de le modifier"
+ * )
  */
 class Add
 {
@@ -31,6 +38,7 @@ class Add
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url()
      */
     private $slug;
 
@@ -41,6 +49,10 @@ class Add
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(
+     *      min = 100,
+     *      minMessage = "Votre introduction doit faire plus de 30 caractères"
+     * )
      */
     private $introduction;
 
