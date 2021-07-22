@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class AdType extends AbstractType
 {
@@ -41,6 +42,12 @@ class AdType extends AbstractType
             ->add('content', TextareaType::class, $this->getConfiguration('Description', 'Donnez une description détaillée de votre offre'))
             ->add('rooms', IntegerType::class, $this->getConfiguration('Nombre de chambres', 'Le nombre de chambres disponibles'))
             ->add('price', MoneyType::class, $this->getConfiguration('Prix par nuit', 'Indiquez le prix que vous voulez pour une nuit'))
+            ->add('images', CollectionType::class,
+                   [
+                       'entry_type' => ImageType::class,
+                       'allow_add' => true
+                   ]   
+            )
         ;
     }
 
