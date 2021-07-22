@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Add;
 use App\Form\AdType;
+use App\Entity\Image;
 use App\Repository\AddRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
