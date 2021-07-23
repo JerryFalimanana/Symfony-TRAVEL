@@ -38,7 +38,6 @@ class Add
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Url()
      */
     private $slug;
 
@@ -50,7 +49,7 @@ class Add
     /**
      * @ORM\Column(type="text")
      * @Assert\Length(
-     *      min = 100,
+     *      min = 30,
      *      minMessage = "Votre introduction doit faire plus de 30 caractères"
      * )
      */
@@ -58,6 +57,10 @@ class Add
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(
+     *      min = 100,
+     *      minMessage = "Le contenu de votre annocne doit faire plus de 100 caractères"
+     * )
      */
     private $content;
 
@@ -73,6 +76,7 @@ class Add
 
     /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="ad", orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $images;
 
