@@ -2,15 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
-class User
+class User Implements UserInterface
 {
     /**
      * @ORM\Id
@@ -63,6 +66,22 @@ class User
      * @ORM\OneToMany(targetEntity=Add::class, mappedBy="author")
      */
     private $adds;
+
+    /**
+     * Permet d'initialiser le slug
+     * 
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     * 
+     * @return void
+     */
+    public function initializeSlug()
+    {
+        if(empty($this->slug)) {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->firstName . ' ' . $this->lastName);
+        }
+    }
 
     public function __construct()
     {
@@ -199,4 +218,20 @@ class User
 
         return $this;
     }
+
+    public function getRoles() {
+        return ['ROLE_USER'];
+    }
+
+    public function getPassword() {
+        return $this->hash;
+    }
+
+    public function getSalt() {}
+
+    public function getUsername() {
+        return $this->email;
+    }
+
+    public function eraseCredentials() {}
 }
