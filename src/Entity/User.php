@@ -8,10 +8,17 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * 
+ * @UniqueEntity(
+ *      fields = {"email"},
+ *      message = "L'addresse email que vous avez entré est déjà utilisé sur le site"
+ * )
  */
 class User Implements UserInterface
 {
@@ -24,21 +31,25 @@ class User Implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message = "Veuillez entrer votre prénom")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message = "Veuillez entrer votre nom de famille")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(message = "Veuillez renseigner votre addresse mail valide")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url(message = "Veuillez entrer un lien valide de votre photo de profil")
      */
     private $picture;
 
@@ -49,11 +60,13 @@ class User Implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min = 10, minMessage = "Votre introduction doit faire plus de 10 caractères")
      */
     private $introduction;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min = 50, minMessage = "Votre description doit faire plus de 50 caractères")
      */
     private $description;
 
@@ -227,11 +240,15 @@ class User Implements UserInterface
         return $this->hash;
     }
 
-    public function getSalt() {}
+    public function getSalt() {
+        // vide
+    }
 
     public function getUsername() {
         return $this->email;
     }
 
-    public function eraseCredentials() {}
+    public function eraseCredentials() {
+        // vide
+    }
 }
