@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\AccountType;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -72,5 +73,29 @@ class AccountController extends AbstractController
      */
     public function logout() {
         // Rien à mettre car c'est symfony qui va gérer le fait de se déconnecter
+    }
+
+    /**
+     * Permet d'afficher et de gérer le formulaire de modification de profil
+     * 
+     * @Route("/account/edit", name = "account_edit")
+     * 
+     * @return Response
+     */
+    public function edit(Request $request, EntityManagerInterface $manager): Response {
+        $user = $this->getUser();
+        $form = $this->createForm(AccountType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash('success', "Les données du profil ont été enregistré avec succès");
+        }
+
+        return $this->render('account/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }
