@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\AccountType;
+use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
+use App\Form\PasswordUpdateType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -95,6 +97,21 @@ class AccountController extends AbstractController
         }
 
         return $this->render('account/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/account/update-password", name = "account_updatePassword")
+     * 
+     * @return Response
+     */
+    public function updatePassword(): Response {
+        $passwordUpdate = new PasswordUpdate;
+
+        $form = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
+
+        return $this->render('account/updatePassword.html.twig', [
             'form' => $form->createView(),
         ]);
     }
