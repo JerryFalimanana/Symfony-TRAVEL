@@ -59,6 +59,14 @@ class User Implements UserInterface
     private $hash;
 
     /**
+     * @Assert\EqualTo(
+     *      propertyPath = "hash",
+     *      message =  "Le mot de passe que vous avez entré n'est pas le même que l'autre"
+     * )
+     */
+    public $passwordConfirm;
+
+    /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min = 10, minMessage = "Votre introduction doit faire plus de 10 caractères")
      */
