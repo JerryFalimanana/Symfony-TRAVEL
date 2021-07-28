@@ -7,6 +7,7 @@ use App\Form\AccountType;
 use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
 use App\Form\PasswordUpdateType;
+use Symfony\Component\Form\FormError;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -116,7 +117,8 @@ class AccountController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             if (!password_verify($passwordUpdate->getOldPassword(), $user->getHash())) {
-                // errors
+                // errors en utilisant un api symfony
+                $form->get('oldPassword')->addError(new FormError("Le mot de passe que vous avez tapé n'est pas le même que votre mot de passe actuel"));
             } else {
                 $newPassword = $passwordUpdate->getNewPassword();
                 $hash = $encoder->encodePassword($user, $newPassword);
