@@ -137,4 +137,15 @@ class AccountController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     *  Permet d'afficher le profil de l'utilisateur connécté
+     * 
+     * @Route("/account", name = "account_myAccount")
+     */
+    public function myAccount(): Response {
+        return $this->render('user/show.html.twig', [
+            'user' => $this->getUser(),
+        ]);
+    }
 }
