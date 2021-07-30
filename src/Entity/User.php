@@ -89,6 +89,11 @@ class User Implements UserInterface
     private $adds;
 
     /**
+     * @ORM\ManyToMany(targetEntity=Role::class, mappedBy="users")
+     */
+    private $userRoles;
+
+    /**
      * Permet d'initialiser le slug
      * 
      * @ORM\PrePersist
@@ -107,6 +112,7 @@ class User Implements UserInterface
     public function __construct()
     {
         $this->adds = new ArrayCollection();
+        $this->userRoles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -258,5 +264,32 @@ class User Implements UserInterface
 
     public function eraseCredentials() {
         // vide
+    }
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getUserRoles(): Collection
+    {
+        return $this->userRoles;
+    }
+
+    public function addUserRole(Role $userRole): self
+    {
+        if (!$this->userRoles->contains($userRole)) {
+            $this->userRoles[] = $userRole;
+            $userRole->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRole(Role $userRole): self
+    {
+        if ($this->userRoles->removeElement($userRole)) {
+            $userRole->removeUser($this);
+        }
+
+        return $this;
     }
 }
