@@ -7,6 +7,7 @@ use App\Entity\Add;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\Image;
+use App\Entity\Booking;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -68,7 +69,7 @@ class AppFixtures extends Fixture
 
         // gerer les annonces
         for ($i = 1; $i <= 15; $i++) {
-            $add = new Add;
+            $ad = new Add;
 
             $title = $faker->sentence();
             $coverImage = $faker->imageUrl(1000,350);
@@ -77,7 +78,7 @@ class AppFixtures extends Fixture
 
             $user = $users[mt_rand(0, count($users) - 1)];
     
-            $add->setTitle($title)
+            $ad->setTitle($title)
                 ->setCoverImage("https://picsum.photos/1000/300")
                 ->setIntroduction($introduction)
                 ->setContent($content)
@@ -85,16 +86,39 @@ class AppFixtures extends Fixture
                 ->setRooms(mt_rand(1, 5))
                 ->setAuthor($user);
     
-            for ($j = 1; $j <= rand(2, 5); $j++) {
+            for ($j = 1; $j <= mt_rand(2, 5); $j++) {
                 $image = new Image();
                 $image->setUrl("https://picsum.photos/1000/300")
                       ->setCaption($faker->sentence())
-                      ->setAd($add);
+                      ->setAd($ad);
                 
                 $manager->persist($image);
             }
+
+            // gestion des résérvations
+            for ($j = 1; $j <= mt_rand(0, 10); $j++) {
+                $booking = new Booking;
+                
+                $createdAt = $faker->dateTimeBetween('-6 months');
+                $startDate = $faker->dateTimeBetween('-3 months');
+
+                $duration = mt_rand(3, 10);
+                $endDate = (clone $startDate)->modify("+$duration days");
+
+                $amount = $ad->getPrice() * $duration;
+                $booker = $users[mt_rand(0, count($users) - 1)];
+
+                $booking->setBooker($booker)
+                        ->setAd($ad)
+                        ->setCreatedAt($createdAt)
+                        ->setStartDate($startDate)
+                        ->setEndDate($endDate)
+                        ->setAmount($amount);
+
+                $manager->persist($booking);
+            }
             
-            $manager->persist($add);
+            $manager->persist($ad);
         }
 
         $manager->flush();
