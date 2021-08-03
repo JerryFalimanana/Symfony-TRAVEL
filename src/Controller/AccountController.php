@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -82,6 +83,7 @@ class AccountController extends AbstractController
      * Permet d'afficher et de gérer le formulaire de modification de profil
      * 
      * @Route("/account/edit", name = "account_edit")
+     * @IsGranted("ROLE_USER")
      * 
      * @return Response
      */
@@ -104,6 +106,7 @@ class AccountController extends AbstractController
 
     /**
      * @Route("/account/update-password", name = "account_updatePassword")
+     * @IsGranted("ROLE_USER")
      * 
      * @return Response
      */
@@ -142,6 +145,7 @@ class AccountController extends AbstractController
      *  Permet d'afficher le profil de l'utilisateur connécté
      * 
      * @Route("/account", name = "account_myAccount")
+     * @IsGranted("ROLE_USER")
      * 
      * @return Response
      */
