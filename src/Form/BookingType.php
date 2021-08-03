@@ -14,8 +14,8 @@ class BookingType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('startDate', DateType::class, $this->getConfiguration("Date d'arrivée", "La date à laquelle vous comptez arrivée"))
-            ->add('endDate', DateType::class, $this->getConfiguration("Date de départ", "La date à laquelle vous quittez les lieux"))
+            ->add('startDate', DateType::class, $this->getConfiguration("Date d'arrivée", "La date à laquelle vous comptez arrivée", ["widget" => "single_text"]))
+            ->add('endDate', DateType::class, $this->getConfiguration("Date de départ", "La date à laquelle vous quittez les lieux", ["widget" => "single_text"]))
         ;
     }
 
