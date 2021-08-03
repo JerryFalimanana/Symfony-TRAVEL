@@ -67,7 +67,7 @@ class AppFixtures extends Fixture
         }
 
         // gerer les annonces
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 15; $i++) {
             $add = new Add;
 
             $title = $faker->sentence();
