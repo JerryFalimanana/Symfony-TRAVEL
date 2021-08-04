@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=BookingRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Booking
 {
@@ -53,6 +54,27 @@ class Booking
      * @ORM\Column(type="text", nullable=true)
      */
     private $comment;
+
+    /**
+     * Callback appelé chaque fois qu'on fasse une résérvation
+     *
+     * @ORM\PrePersist
+     * 
+     * @return void
+     */
+    public function prePersist() {
+        if (empty($this->createdAt)) {
+            $this->createdAt = new \DateTime();
+        }
+        if (empty($this->amount)) {
+            $this->amount = $this->ad->getPrice() * $this->getDuration();
+        }
+    }
+
+    public function getDuration() {
+        $diff = $this->endDate->diff($this->startDate);
+        return $diff->days;
+    }
 
     public function getId(): ?int
     {
