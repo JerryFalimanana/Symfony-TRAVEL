@@ -33,12 +33,27 @@ class BookingController extends AbstractController
             $manager->persist($booking);
             $manager->flush();
 
-            return $this->redirectToRoute('booking_success', ['id' => $booking->getId()]);
+            return $this->redirectToRoute('booking_show', ['id' => $booking->getId()]);
         }
 
         return $this->render('booking/book.html.twig', [
             'ad' => $ad,
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Permet d'afficher la page d'une réservation
+     *
+     * @Route("/booking/{id}", name = "booking_show")
+     * 
+     * @param Booking $booking
+     * @return Response
+     */
+    public function show(Booking $booking): Response {
+        
+        return $this->render('booking/show.html.twig', [
+            'booking' => $booking,
         ]);
     }
 }
