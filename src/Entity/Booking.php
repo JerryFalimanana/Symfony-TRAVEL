@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\BookingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BookingRepository::class)
@@ -32,11 +33,13 @@ class Booking
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Type("DateTime")
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Type("DateTime")
      */
     private $endDate;
 
