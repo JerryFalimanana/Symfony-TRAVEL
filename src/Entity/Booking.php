@@ -34,12 +34,14 @@ class Booking
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("DateTime")
+     * @Assert\GreaterThan("today", message = "La date d'arrivée doit être ulterieur que la date d'aujourd'hui")
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("DateTime")
+     * @Assert\GreaterThan(propertyPath = "startDate", message = "La date de départ doit être plus éloignée que la date d'arrivée")
      */
     private $endDate;
 
