@@ -46,14 +46,15 @@
 
                 <hr>
                 {% if ad.comments | length > 0 %}
-                    <h2 class="mb-3">Commentaires de nos voyageurs: </h2>
+                    <h2 class="mb-3">Commentaires de nos voyageurs : </h2>
                     {% for comment in ad.comments %}
                         <div class="bg-light rounded mb-3 py-3 px-3">
                             <strong>{{ comment.author.firstName }}	{{ comment.author.lastName }}</strong> a dit:
                             <blockQUote>
                                 {{ comment.content }}
                             </blockQUote>
-                            <strong>Note donnée par	{{ comment.author.firstName }}	{{ comment.author.lastName }}: {{ comment.rating }}</strong>
+                            <strong>Note donnée par	{{ comment.author.firstName }}	{{ comment.author.lastName }} : </strong>
+                            {% include "front_office/partials/_rating.html.twig" with {'rating': comment.rating} %}
                         </div>
                     {% endfor %}
                 {% else %}
