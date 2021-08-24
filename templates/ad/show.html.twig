@@ -47,6 +47,21 @@
                 <hr>
                 {% if ad.comments | length > 0 %}
                     <h2 class="mb-3">Commentaires de nos voyageurs : </h2>
+
+                    <div class="alert alert-info">
+                        <h4 class="alert-heading text-center">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    Note globale donnée par nos voyageurs
+                                </div>
+                                <div class="col">
+                                    {% include "front_office/partials/_rating.html.twig" with {'rating': ad.avgRatings} %} <br>
+                                    <small>Cette moyenne est calculer sur {{ ad.comments | length }} avix</small>
+                                </div>
+                            </div>
+                        </h4>
+                    </div>
+
                     {% for comment in ad.comments %}
                         <div class="bg-light rounded mb-3 py-3 px-3">
                             <strong>{{ comment.author.firstName }}	{{ comment.author.lastName }}</strong> a dit:

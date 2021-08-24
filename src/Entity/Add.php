@@ -119,6 +119,17 @@ class Add
         }
     }
 
+    public function getAvgRatings() {
+        $sum = array_reduce($this->comments->toArray(), function($total, $comment) {
+            return $total + $comment->getRating();
+        }, 0);
+
+        if (count($this->comments) > 0) {
+            return $sum / count($this->comments);
+        }
+        return 0;
+    }
+
     /**
      * Permet d'obtenir un tableau des jours qui ne sont pas disponible pour cette annonce
      *
