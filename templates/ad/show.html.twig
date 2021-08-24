@@ -43,6 +43,23 @@
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
+
+                <hr>
+                {% if ad.comments | length > 0 %}
+                    <h2 class="mb-3">Commentaires de nos voyageurs: </h2>
+                    {% for comment in ad.comments %}
+                        <div class="bg-light rounded mb-3 py-3 px-3">
+                            <strong>{{ comment.author.firstName }}	{{ comment.author.lastName }}</strong> a dit:
+                            <blockQUote>
+                                {{ comment.content }}
+                            </blockQUote>
+                            <strong>Note donnée par	{{ comment.author.firstName }}	{{ comment.author.lastName }}: {{ comment.rating }}</strong>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h2>Cette annonce n'a pas encore reçu de commentaires ...</h2>
+                {% endif %}
+                
             </div>
             <div class="col">
                 {% set a = ad.author %}
