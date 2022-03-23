@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AddRepository;
@@ -119,6 +120,24 @@ class Add
         }
     }
 
+    /**
+     * Permet de récupérer le commentaire d'un auteur par rapport à une annonce
+     *
+     * @param User $author
+     * @return Comment|null
+     */
+    public function getCommentFromAuthor(User $author) {
+        foreach ($this->comments as $comment) {
+            if ($comment->getAuthor() === $author) return $comment;
+        }
+        return null;
+    }
+
+    /**
+     * Permet d'obtenir la moyenne globale des notes pour cette annonce
+     *
+     * @return float
+     */
     public function getAvgRatings() {
         $sum = array_reduce($this->comments->toArray(), function($total, $comment) {
             return $total + $comment->getRating();
