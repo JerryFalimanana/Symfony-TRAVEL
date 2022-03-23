@@ -64,13 +64,21 @@
                     <a href="{{ path('user_show', {'slug': author.slug}) }}" class="btn btn-primary">Plus d'info sur {{ author.firstName }}</a>
                 </div>
 
-                <div class="alert alert-light">
+                <div class="alert alert-light" id="comment">
                     <h2 class="alert-heading">Votre avis compte !</h2>
                     {% if date() > date(booking.endDate) %}
-                        {{ form_start(form) }}
-                        {{ form_widget(form) }}
-                        <button type="submit" class="btn btn-success">Confirmer</button>
-                        {{ form_end(form) }}
+                        {% set comment = booking.ad.commentFromAuthor(app.user) %}
+                        {% if comment is not null %}
+                            <blockquote>
+                                {{ comment.content }}
+                            </blockquote>
+                            <strong>Note : </strong> {% include "front_office/partials/_rating.html.twig" with {'rating': comment.rating} %}
+                        {% else %}
+                            {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                            <button type="submit" class="btn btn-success">Confirmer</button>
+                            {{ form_end(form) }}
+                        {% endif %}
                     {% else %}
                         <p>Vous ne pouvez pas noter cette annonce tant que votre voyage ne sera pas complet</p>
                     {% endif %}

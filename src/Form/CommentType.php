@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class CommentType extends ApplicationType
 {
@@ -21,7 +22,7 @@ class CommentType extends ApplicationType
                     'step' => 1,
                 ]
             ]))
-            ->add('content')
+            ->add('content', TextareaType::class, $this->getConfiguration("Votre avis / Témoignage", "N'hésitez pas à être plus précis, cela aidera les futures voyageurs"))
         ;
     }
 
