@@ -37,3 +37,7 @@ div.carousel-caption{
 .datepicker table tr td.disabled:hover {
     color: firebrick !important;
 }
+
+.rating i {
+    color: goldenrod;
+}
