@@ -23,7 +23,7 @@ class HomeController extends AbstractController
     /**
      * Fonction avec route parametré
      * 
-     * @Route("/hello/{prenom}", name="vody")
+     * @Route("/hello/{prenom}", name="test")
      *
      * @param [type] $prenom
      * @return Response
