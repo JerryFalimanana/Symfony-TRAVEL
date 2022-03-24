@@ -22,4 +22,14 @@ class AdminAccountController extends AbstractController
             'userName' => $username
         ]);
     }
+
+    /**
+     * @Route("/admin/logout", name="admin_account_logout")
+     * 
+     * @return void
+     */
+    public function logout()
+    {
+        // ...
+    }
 }
