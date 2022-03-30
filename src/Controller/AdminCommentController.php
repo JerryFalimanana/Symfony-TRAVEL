@@ -23,4 +23,19 @@ class AdminCommentController extends AbstractController
             'comments' => $comments,
         ]);
     }
+
+    /**
+     *  Permet de modifier un commentaire
+     *
+     * @Route("/admin/comments/{id}/edit", name = "admin_comment_edit")
+     * 
+     * @return Response
+     */
+    public function edit(Comment $comment): Response
+    {
+        
+        return $this->render('back_office/comment/edit.html.twig', [
+            'comment' => $comment
+        ]);
+    }
 }
