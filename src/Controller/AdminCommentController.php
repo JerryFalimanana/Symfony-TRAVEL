@@ -71,7 +71,7 @@ class AdminCommentController extends AbstractController
 
         $this->addFlash(
             'success',
-            "Le commentaire numéro a bien été supprimé"
+            "Le commentaire a bien été supprimé"
         );
         return $this->redirectToRoute('admin_comment_index');
     }
