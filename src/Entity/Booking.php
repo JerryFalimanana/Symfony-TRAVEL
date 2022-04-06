@@ -34,7 +34,7 @@ class Booking
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Type("DateTime")
-     * @Assert\GreaterThan("today", message = "La date d'arrivée doit être ulterieur que la date d'aujourd'hui")
+     * @Assert\GreaterThan("today", message = "La date d'arrivée doit être ulterieur que la date d'aujourd'hui", groups={"front"})
      */
     private $startDate;
 
@@ -64,6 +64,7 @@ class Booking
      * Callback appelé chaque fois qu'on fasse une résérvation
      *
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      * 
      * @return void
      */
