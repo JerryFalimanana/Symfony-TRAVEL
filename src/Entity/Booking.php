@@ -64,6 +64,7 @@ class Booking
      * Callback appelé chaque fois qu'on fasse une résérvation
      *
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      * 
      * @return void
      */

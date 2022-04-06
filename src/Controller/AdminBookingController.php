@@ -37,6 +37,8 @@ class AdminBookingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $booking->setAmount(0);
+
             // $manager->persist($booking); comme la réservation est déjà reconu par le manager
             $manager->flush(); // on utilise tout simplement cette ligne
             $this->addFlash(

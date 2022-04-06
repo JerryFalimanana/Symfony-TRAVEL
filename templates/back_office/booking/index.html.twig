@@ -12,6 +12,8 @@
                     <th>Date</th>
                     <th>Visiteur</th>
                     <th>Annonce</th>
+                    <th>Duré</th>
+                    <th>Montant</th>
                     <th></th>
                 </tr>
             </thead>
@@ -22,6 +24,8 @@
                         <td>{{ booking.createdAt | date('d/m/Y H:i') }}</td>
                         <td><img src="{{ booking.booker.picture }}" alt="" class="avatar avatar-micro"> {{ booking.booker.lastName }} {{ booking.booker.firstName }}</td>
                         <td>{{ booking.ad.title }}</td>
+                        <td>{{ booking.getDuration() }}</td>
+                        <td>{{ booking.amount }} &euro;</td>
                         <td>
                             <a href="{{ path("admin_booking_edit", {'id': booking.id}) }}" class="btn btn-primary">
                                 <i class="fas fa-pen"></i>
