@@ -20,9 +20,13 @@ class AdminAdController extends AbstractController
     {
         $limit = 10;
         $start = $page * $limit - $limit;
+        $total = count($repo->findAll());
+        $pages = ceil($total / $limit);
 
         return $this->render('back_office/ad/index.html.twig', [
             'ads' => $repo->findBy([], [], $limit, $start),
+            'pages' => $pages,
+            'page' => $page
         ]);
     }
 
