@@ -14,9 +14,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminAdController extends AbstractController
 {
     /**
-     * @Route("/admin/ads/{page}", name="admin_ads_index")
+     * @Route("/admin/ads/{page<\d+>?1}", name="admin_ads_index")
      */
-    public function index(AddRepository $repo, $page = 1): Response
+    public function index(AddRepository $repo, $page): Response // $page prendra automatiquement la valeur 1 d'après l'expression régulière
     {
         $limit = 10;
         $start = $page * $limit - $limit;
