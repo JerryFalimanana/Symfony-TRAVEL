@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Add;
 use App\Form\AdType;
-use App\Repository\AddRepository;
+use App\Service\Pagination;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,17 +16,13 @@ class AdminAdController extends AbstractController
     /**
      * @Route("/admin/ads/{page<\d+>?1}", name="admin_ads_index")
      */
-    public function index(AddRepository $repo, $page): Response // $page prendra automatiquement la valeur 1 d'après l'expression régulière
+    public function index($page, Pagination $pagination): Response // $page prendra automatiquement la valeur 1 d'après l'expression régulière
     {
-        $limit = 10;
-        $start = $page * $limit - $limit;
-        $total = count($repo->findAll());
-        $pages = ceil($total / $limit);
+        $pagination->setEntityClass(Add::class)
+                   ->setPage($page);
 
         return $this->render('back_office/ad/index.html.twig', [
-            'ads' => $repo->findBy([], [], $limit, $start),
-            'pages' => $pages,
-            'page' => $page
+            'pagination' => $pagination,
         ]);
     }
 
