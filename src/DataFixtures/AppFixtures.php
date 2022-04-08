@@ -36,7 +36,7 @@ class AppFixtures extends Fixture
                   ->setIntroduction($faker->sentence())
                   ->setDescription("<p>" . join('</p><p>', $faker->paragraphs(3)) . "</p>")
                   ->setHash($this->encoder->encodePassword($adminUser, 'password'))
-                  ->setPicture('http://placehold.it/60x40')
+                  ->setPicture('https://avatars.githubusercontent.com/u/73733746?v=4')
                   ->addUserRole($adminRole);
         $manager->persist($adminUser);
 
