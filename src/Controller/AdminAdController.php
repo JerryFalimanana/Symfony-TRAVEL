@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminAdController extends AbstractController
 {
     /**
-     * @Route("/admin/ads/{page<\d+>?1}", name="admin_ads_index")
+     * @Route("/admin/ads/{page<\d+>?1}", name="admin_ad_index")
      */
     public function index($page, Pagination $pagination): Response // $page prendra automatiquement la valeur 1 d'après l'expression régulière
     {
