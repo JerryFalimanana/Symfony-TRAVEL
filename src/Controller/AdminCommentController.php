@@ -19,6 +19,7 @@ class AdminCommentController extends AbstractController
     public function index($page, Pagination $pagination): Response
     {
         $pagination->setEntityClass(Comment::class)
+                   ->setLimit(5)
                    ->setPage($page);
 
         return $this->render('back_office/comment/index.html.twig', [
