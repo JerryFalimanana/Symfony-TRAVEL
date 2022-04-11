@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Twig\Environment;
 
 class Pagination
 {
@@ -10,10 +12,23 @@ class Pagination
     private $limit = 10;
     private $entityClass;
     private $manager;
+    private $twig;
+    private $route;
 
-    public function __construct(EntityManagerInterface $manager)
+    public function __construct(EntityManagerInterface $manager, Environment $twig, RequestStack $request)
     {
+        $this->route = $request->getCurrentRequest()->attributes->get('_route');
+        
         $this->manager = $manager;
+        $this->twig = $twig;
+    }
+
+    public function display() {
+        $this->twig->display('back_office/partials/_pagination.html.twig', [
+            'page' => $this->currentPage,
+            'pages' => $this->getPages(),
+            'route' => $this->route
+        ]);
     }
 
     public function getPages() {
@@ -62,5 +77,25 @@ class Pagination
 
     public function getEntityClass() {
         return $this->entityClass;
+    }
+
+    /**
+     * Get the value of route
+     */ 
+    public function getRoute()
+    {
+        return $this->route;
+    }
+
+    /**
+     * Set the value of route
+     *
+     * @return  self
+     */ 
+    public function setRoute($route)
+    {
+        $this->route = $route;
+
+        return $this;
     }
 }
