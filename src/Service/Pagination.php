@@ -34,6 +34,9 @@ class Pagination
     }
 
     public function getPages() {
+        if (empty($this->entityClass)) {
+            throw new \Exception("Vous n'avez pas spécifié l'entité sur laquelle nous devrons paginer, utilisez la methode setEntityClass() pour votre objet Pagination ");
+        }
         $repo = $this->manager->getRepository($this->entityClass);
         $total = count($repo->findAll());
 
@@ -43,6 +46,9 @@ class Pagination
     }
 
     public function getData() {
+        if (empty($this->entityClass)) {
+            throw new \Exception("Vous n'avez pas spécifié l'entité sur laquelle nous devrons paginer, utilisez la methode setEntityClass() pour votre objet Pagination ");
+        }
         $offset = $this->currentPage * $this->limit - $this->limit;
 
         $repo = $this->manager->getRepository($this->entityClass);
