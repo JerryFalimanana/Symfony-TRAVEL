@@ -45,7 +45,7 @@ class AppFixtures extends Fixture
 
         $genres = ['male', 'female'];
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 20; $i++) {
             $user = new User;
 
             $genre = $faker->randomElement($genres);
@@ -69,7 +69,7 @@ class AppFixtures extends Fixture
         }
 
         // gerer les annonces
-        for ($i = 1; $i <= 15; $i++) {
+        for ($i = 1; $i <= 30; $i++) {
             $ad = new Add;
 
             $title = $faker->sentence();
