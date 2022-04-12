@@ -19,6 +19,24 @@ class AdminDashboardController extends AbstractController
         $bookings = $manager->createQuery('SELECT COUNT(b) FROM App\Entity\Booking b')->getSingleScalarResult();
         $comments = $manager->createQuery('SELECT COUNT(c) FROM App\Entity\Comment c')->getSingleScalarResult();
 
+        $bestAds = $manager->createQuery(
+            'SELECT AVG(c.rating) as note, a.title, a.id, u.firstName, u.lastName, u.picture
+            FROM App\Entity\Comment c
+            JOIN c.ad a
+            JOIN a.author u
+            GROUP BY a
+            ORDER BY note DESC'
+        )->setMaxResults(5)->getResult();
+
+        $worstAds = $manager->createQuery(
+            'SELECT AVG(c.rating) as note, a.title, a.id, u.firstName, u.lastName, u.picture
+            FROM App\Entity\Comment c
+            JOIN c.ad a
+            JOIN a.author u
+            GROUP BY a
+            ORDER BY note ASC'
+        )->setMaxResults(5)->getResult();
+
         return $this->render('back_office/dashboard/index.html.twig', [
             // 'stats' => [
             //     'users' => $users,
@@ -26,7 +44,9 @@ class AdminDashboardController extends AbstractController
             //     'bookings' => $bookings,
             //     'comments' => $comments,
             // ]
-            'stats' => compact('users', 'ads', 'bookings', 'comments') // cette fonction compact() permet de retourner un tableau de valeurs même que les clés
+            'stats' => compact('users', 'ads', 'bookings', 'comments'), // cette fonction compact() permet de retourner un tableau de valeurs même que les clés
+            'bestAds' => $bestAds,
+            'worstAds' => $worstAds,
         ]);
     }
 }
