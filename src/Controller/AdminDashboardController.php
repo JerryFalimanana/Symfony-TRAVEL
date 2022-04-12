@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,10 +12,21 @@ class AdminDashboardController extends AbstractController
     /**
      * @Route("/admin", name="admin_dashboard")
      */
-    public function index(): Response
+    public function index(EntityManagerInterface $manager): Response
     {
+        $users = $manager->createQuery('SELECT COUNT(u) FROM App\Entity\User u')->getSingleScalarResult();
+        $ads = $manager->createQuery('SELECT COUNT(a) FROM App\Entity\Add a')->getSingleScalarResult();
+        $bookings = $manager->createQuery('SELECT COUNT(b) FROM App\Entity\Booking b')->getSingleScalarResult();
+        $comments = $manager->createQuery('SELECT COUNT(c) FROM App\Entity\Comment c')->getSingleScalarResult();
+
         return $this->render('back_office/dashboard/index.html.twig', [
-            'controller_name' => 'AdminDashboardController',
+            // 'stats' => [
+            //     'users' => $users,
+            //     'ads' => $ads,
+            //     'bookings' => $bookings,
+            //     'comments' => $comments,
+            // ]
+            'stats' => compact('users', 'ads', 'bookings', 'comments') // cette fonction compact() permet de retourner un tableau de valeurs même que les clés
         ]);
     }
 }
