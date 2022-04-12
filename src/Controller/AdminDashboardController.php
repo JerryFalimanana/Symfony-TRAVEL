@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\Statistics;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,30 +13,11 @@ class AdminDashboardController extends AbstractController
     /**
      * @Route("/admin", name="admin_dashboard")
      */
-    public function index(EntityManagerInterface $manager): Response
+    public function index(EntityManagerInterface $manager, Statistics $statistics): Response
     {
-        $users = $manager->createQuery('SELECT COUNT(u) FROM App\Entity\User u')->getSingleScalarResult();
-        $ads = $manager->createQuery('SELECT COUNT(a) FROM App\Entity\Add a')->getSingleScalarResult();
-        $bookings = $manager->createQuery('SELECT COUNT(b) FROM App\Entity\Booking b')->getSingleScalarResult();
-        $comments = $manager->createQuery('SELECT COUNT(c) FROM App\Entity\Comment c')->getSingleScalarResult();
-
-        $bestAds = $manager->createQuery(
-            'SELECT AVG(c.rating) as note, a.title, a.id, u.firstName, u.lastName, u.picture
-            FROM App\Entity\Comment c
-            JOIN c.ad a
-            JOIN a.author u
-            GROUP BY a
-            ORDER BY note DESC'
-        )->setMaxResults(5)->getResult();
-
-        $worstAds = $manager->createQuery(
-            'SELECT AVG(c.rating) as note, a.title, a.id, u.firstName, u.lastName, u.picture
-            FROM App\Entity\Comment c
-            JOIN c.ad a
-            JOIN a.author u
-            GROUP BY a
-            ORDER BY note ASC'
-        )->setMaxResults(5)->getResult();
+        $stats = $statistics->getStats();
+        $bestAds = $statistics->getAdsStats('DESC');
+        $worstAds = $statistics->getAdsStats('ASC');
 
         return $this->render('back_office/dashboard/index.html.twig', [
             // 'stats' => [
@@ -44,7 +26,8 @@ class AdminDashboardController extends AbstractController
             //     'bookings' => $bookings,
             //     'comments' => $comments,
             // ]
-            'stats' => compact('users', 'ads', 'bookings', 'comments'), // cette fonction compact() permet de retourner un tableau de valeurs même que les clés
+            //'stats' => compact('users', 'ads', 'bookings', 'comments'), cette fonction compact() permet de retourner un tableau de valeurs même que les clés
+            'stats' => $stats,
             'bestAds' => $bestAds,
             'worstAds' => $worstAds,
         ]);

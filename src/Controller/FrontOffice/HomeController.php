@@ -2,6 +2,8 @@
 
 namespace App\Controller\FrontOffice;
 
+use App\Repository\AddRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,12 +13,11 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(): Response
+    public function index(AddRepository $adRepo, UserRepository $userRepo): Response
     {
-        $nombre = [1,2,3,4,5,6,7,8,9];
-
         return $this->render('front_office/home/index.html.twig', [
-            'chiffre' => $nombre,
+            'ads' => $adRepo->findBestAds(3),
+            'users' => $userRepo->findBestUsers(2)
         ]);
     }
 
